@@ -2468,3 +2468,55 @@ input:checked+.slider:before {
 .btn-cancel:hover {
     background: #d5d5d5;
 }
+
+/* Address display */
+.location-display{
+    padding: 1rem;
+    background:#f8f9fa;
+    border-radius:10px;
+    display:flex;
+    align-items:start;
+    gap:1rem;
+    margin-top:1rem;
+    cursor:pointer;
+}
+
+.location-display i{
+    color:#667eea;
+    font-size:1.5rem;
+}
+
+/* Buttons */
+.btn{
+    padding:0.75rem 2rem;
+    border:none;
+    border-radius:10px;
+    font-size:1rem;
+    font-weight:600;
+    cursor:pointer;
+    transition:all 0.3s;
+    display:inline-flex;
+    align-items:center;
+    gap:0.5rem;
+}
+
+/* Primary button */
+.btn-primary{
+    background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+    color:white;
+}
+
+.btn-primary:hover{
+    transform:translateY(-2px);
+    box-shadow:0 5px 15px rgba(102,126,234,0.4);
+}
+
+/* Secondary button */
+.btn-secondary{
+    background:#e0e0e0;
+    color:#666;
+}
+
+.btn-secondary:hover{
+    background:#d0d0d0;
+}
