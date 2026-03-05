@@ -2520,3 +2520,55 @@ input:checked+.slider:before {
 .btn-secondary:hover{
     background:#d0d0d0;
 }
+
+.sidebar ul li.active{
+    background:#088178;
+    color:white;
+}
+
+.order-card{
+    background:#fff;
+    border:1px solid #e5e5e5;
+    border-radius:8px;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+.order-product{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:15px;
+    border:1px solid #eee;
+    border-radius:6px;
+    margin-bottom:10px;
+}
+
+.order-product img{
+    width:80px;
+    height:80px;
+    object-fit:cover;
+    border-radius:6px;
+}
+
+.order-status{
+    padding:6px 12px;
+    border-radius:6px;
+    font-weight:600;
+}
+
+.order-success{
+    background:#d1f7ea;
+    color:#088178;
+}
+
+.order-cancel{
+    background:#ffd6d6;
+    color:#d11a2a;
+}
+
+.order-total{
+    font-size:20px;
+    font-weight:700;
+    color:#088178;
+}
