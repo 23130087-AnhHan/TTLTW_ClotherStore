@@ -46,5 +46,85 @@ public class UserDao extends BaseDao {
     }
 
 
+    public boolean checkAccount(String username) {
+        String sql = "SELECT * FROM USERS WHERE username = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, username);
+            ResultSet result = ps.executeQuery();
+            return result.next();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // Lấy thông tin user theo userID
+    public User selectUserByUserID(int userID) {
+        String sql = "SELECT * FROM USERS WHERE userID = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, userID);
+            ResultSet result = ps.executeQuery();
+
+            if (result.next()) { // FIX: if thay vì while
+                User user = new User();
+                user.setIdUser(result.getInt("userID"));
+                user.setFirstName(result.getString("firstName"));
+                user.setLastName(result.getString("lastName"));
+                user.setEmail(result.getString("email"));
+                user.setVerify((result.getInt("verify") == 1));
+                user.setUsername(result.getString("username"));
+                user.setPassword(result.getString("password"));
+
+                // FIX: null check cho birthday tránh NullPointerException
+                Date getBirthdate = result.getDate("birthday");
+                user.setBirthday(getBirthdate == null ? null : getBirthdate.toLocalDate());
+
+                user.setGender(result.getInt("gender"));
+                user.setRole(result.getInt("role"));
+                user.setStatus(result.getInt("status"));
+                return user;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    //Lấy thông tin user theo username
+    public User getFullName(String username) {
+        String sql = "SELECT * FROM USERS WHERE username = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, username);
+            ResultSet result = ps.executeQuery();
+
+            if (result.next()) { // FIX: if thay vì while
+                User user = new User();
+                user.setIdUser(result.getInt("userID"));
+                user.setFirstName(result.getString("firstName"));
+                user.setLastName(result.getString("lastName"));
+                user.setEmail(result.getString("email"));
+                user.setVerify((result.getInt("verify") == 1));
+                user.setUsername(result.getString("username"));
+                user.setPassword(result.getString("password"));
+                user.setRole(result.getInt("role"));
+                user.setStatus(result.getInt("status"));
+
+                // FIX: null check cho birthday tránh NullPointerException
+                Date getBirthdate = result.getDate("birthday");
+                user.setBirthday(getBirthdate == null ? null : getBirthdate.toLocalDate());
+
+                user.setGender(result.getInt("gender"));
+                return user;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
 
