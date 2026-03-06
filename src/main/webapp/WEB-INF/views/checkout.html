@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Checkout</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assert/css/style.css">
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header>
+    <h2 style="text-align:center;margin:20px;">
+        Header Placeholder
+    </h2>
+</header>
+
+
+<div class="checkout-header">
+
+    <div class="checkout-container">
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
+
+            <h1 class="mb-0">
+                <i class="fas fa-shopping-cart me-2"></i>
+                Checkout
+            </h1>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="container checkout-container mb-5">
+
+    <form>
+
+        <div class="row">
+
+
+            <!-- LEFT SIDE -->
+
+            <div class="col-lg-8">
+
+                <!-- SHIPPING ADDRESS -->
+
+                <div class="section-card">
+
+                    <div class="section-title">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Shipping Address
+                    </div>
+
+
+                    <div class="list-address-checkout overflow-y-scroll">
+
+                        <!-- ADDRESS 1 -->
+
+                        <div class="address-card selected" data-city="Ho Chi Minh">
+
+                            <input type="radio" name="address" checked>
+
+                            <div class="mb-2">
+                                <span class="address-default-badge">
+                                    Default
+                                </span>
+                            </div>
+
+                            <h6 class="mb-2">
+                                Nguyen Van A
+                            </h6>
+
+                            <p class="mb-1 text-muted">
+                                <i class="fas fa-phone me-2"></i>
+                                0123456789
+                            </p>
+
+                            <p class="mb-0 text-muted">
+                                <i class="fas fa-map-marker-alt me-2"></i>
+                                123 Street, Ward 1, Ho Chi Minh, Vietnam
+                            </p>
+
+                        </div>
+
+
+                        <!-- ADDRESS 2 -->
+
+                        <div class="address-card" data-city="Ha Noi">
+
+                            <input type="radio" name="address">
+
+                            <h6 class="mb-2">
+                                Nguyen Van A
+                            </h6>
+
+                            <p class="mb-1 text-muted">
+                                <i class="fas fa-phone me-2"></i>
+                                0123456789
+                            </p>
+
+                            <p class="mb-0 text-muted">
+                                <i class="fas fa-map-marker-alt me-2"></i>
+                                456 Street, Ward 2, Ha Noi, Vietnam
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <a href="#" class="btn btn-add-address">
+
+                        <i class="fas fa-plus me-2"></i>
+                        Add New Address
+
+                    </a>
+
+                </div>
+
+
+                <!-- ORDER NOTE -->
+
+                <div class="section-card">
+
+                    <div class="section-title">
+                        <i class="fas fa-sticky-note"></i>
+                        Order Notes
+                    </div>
+
+                    <textarea
+                            class="form-control"
+                            rows="3"
+                            placeholder="Leave a note for your order">
+                    </textarea>
+
+                </div>
+
+
+
+                <!-- PAYMENT METHOD -->
+
+                <div class="section-card">
+
+                    <div class="section-title">
+                        <i class="fas fa-credit-card"></i>
+                        Payment Method
+                    </div>
+
+
+                    <div class="payment-method active">
+
+                        <label class="d-flex align-items-center mb-0">
+
+                            <input type="radio" name="payment" checked>
+
+                            <span class="ms-2">
+
+                            <strong>Cash On Delivery</strong>
+
+                                <span class="text-muted small">
+                                    Pay when you receive the order
+                                </span>
+
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="payment-method">
+
+                        <label class="d-flex align-items-center mb-0">
+
+                            <input type="radio" name="payment">
+
+                            <span class="ms-2">
+
+                            <strong>Bank Transfer</strong>
+
+                                <span class="text-muted small">
+                                    Transfer via bank
+                                </span>
+
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="payment-method">
+
+                        <label class="d-flex align-items-center mb-0">
+
+                            <input type="radio" name="payment">
+
+                            <span class="ms-2">
+
+                            <strong>Momo</strong>
+
+                                <span class="text-muted small">
+                                    Pay with Momo wallet
+                                </span>
+
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="payment-method">
+
+                        <label class="d-flex align-items-center mb-0">
+
+                            <input type="radio" name="payment">
+
+                            <span class="ms-2">
+
+                            <strong>Credit Card</strong>
+
+                                <span class="text-muted small">
+                                    Visa, Mastercard
+                                </span>
+
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT SIDE -->
+
+            <div class="col-lg-4">
+
+                <div class="section-card">
+
+                    <div class="section-title">
+                        <i class="fas fa-receipt"></i>
+                        Your Order
+                    </div>
+
+
+                    <div class="order-summary overflow-y-scroll">
+
+
+                        <div class="product-item">
+
+                            <img
+                                    src="../../assert/img/product1.jpg"
+                                    class="product-img"
+                                    alt="Product">
+
+                            <div class="product-info">
+
+                                <div class="product-name">
+                                    Product Name Example
+                                </div>
+
+                                <div class="product-variant">
+                                    Size M
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+
+                                    <span class="text-muted">
+                                        Qty: 2
+                                    </span>
+
+                                    <span class="product-price">
+                                        450,000 VNĐ
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- VOUCHER -->
+
+                    <div class="mb-3">
+
+                        <label class="form-label small fw-bold">
+                            Discount Code
+                        </label>
+
+                        <div class="voucher-input d-flex flex-column flex-md-row">
+
+                            <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Enter code">
+
+                            <button
+                                    type="button"
+                                    class="btn btn-primary">
+
+                                Apply
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- SUMMARY -->
+
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span>450,000 VNĐ</span>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Shipping</span>
+                        <span>20,000 VNĐ</span>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Discount</span>
+                        <span class="text-danger">0 VNĐ</span>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Total</span>
+                        <span>470,000 VNĐ</span>
+                    </div>
+
+
+                    <div class="d-flex justify-content-center">
+
+                        <button
+                                type="submit"
+                                class="btn btn-success mt-3">
+
+                            <i class="fas fa-lock me-2"></i>
+                            Place Order
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="text-center mt-3">
+
+                        <small class="text-muted">
+
+                            <i class="fas fa-shield-alt me-1"></i>
+                            Secure Payment
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <h3 style="text-align:center;margin:20px;">
+
+        Footer Placeholder
+
+    </h3>
+
+</footer>
+
+</body>
+</html>
