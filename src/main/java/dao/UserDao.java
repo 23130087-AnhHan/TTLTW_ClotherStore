@@ -68,7 +68,7 @@ public class UserDao extends BaseDao {
             ps.setInt(1, userID);
             ResultSet result = ps.executeQuery();
 
-            if (result.next()) { // FIX: if thay vì while
+            if (result.next()) {
                 User user = new User();
                 user.setIdUser(result.getInt("userID"));
                 user.setFirstName(result.getString("firstName"));
@@ -78,7 +78,7 @@ public class UserDao extends BaseDao {
                 user.setUsername(result.getString("username"));
                 user.setPassword(result.getString("password"));
 
-                // FIX: null check cho birthday tránh NullPointerException
+
                 Date getBirthdate = result.getDate("birthday");
                 user.setBirthday(getBirthdate == null ? null : getBirthdate.toLocalDate());
 
@@ -102,7 +102,7 @@ public class UserDao extends BaseDao {
             ps.setString(1, username);
             ResultSet result = ps.executeQuery();
 
-            if (result.next()) { // FIX: if thay vì while
+            if (result.next()) {
                 User user = new User();
                 user.setIdUser(result.getInt("userID"));
                 user.setFirstName(result.getString("firstName"));
@@ -114,7 +114,7 @@ public class UserDao extends BaseDao {
                 user.setRole(result.getInt("role"));
                 user.setStatus(result.getInt("status"));
 
-                // FIX: null check cho birthday tránh NullPointerException
+
                 Date getBirthdate = result.getDate("birthday");
                 user.setBirthday(getBirthdate == null ? null : getBirthdate.toLocalDate());
 
@@ -125,6 +125,35 @@ public class UserDao extends BaseDao {
             e.printStackTrace();
         }
         return null;
+    }
+    // hàm đổi mật khẩu
+    public boolean updatePasswordByEmail(String email, String passwordHash) {
+        String sql = "UPDATE users SET password=? WHERE email=?";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setString(1, passwordHash);
+            ps.setString(2, email);
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+
+        }
+    }
+
+    public boolean updatePasswordByUserID(int id, String passwordHash) {
+        String sql = "UPDATE users SET password=? WHERE userID=?";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setString(1, passwordHash);
+            ps.setInt(2, id);
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+
+        }
+
     }
 }
 
