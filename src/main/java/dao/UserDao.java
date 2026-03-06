@@ -172,6 +172,33 @@ public class UserDao extends BaseDao {
             throw new RuntimeException(e);
         }
     }
+    // kiểm tra email có tồn tại không
+    public boolean checkEmail(String email) {
+        String sql = "SELECT * FROM users WHERE email=?";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+
+        }
+    }
+
+    // kiểm tra email có tồn tại không (dùng cho đăng ký)
+    public boolean isEmailExists(String email) {
+        String sql = "SELECT * FROM users where email =?";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+
+        }
+    }
 
 }
 
