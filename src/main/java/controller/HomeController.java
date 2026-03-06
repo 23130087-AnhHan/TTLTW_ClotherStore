@@ -1,6 +1,10 @@
 package controller;
 
+import dao.ProductsDao;
+import model.Products;
+
 import java.io.IOException;
+import java.util.List;
 
 
 import javax.servlet.ServletException;
@@ -33,9 +37,22 @@ public class HomeController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String url ="/views/index.html";
+        String url = "/WEB-INF/views/index.jsp";
 
-        request.getRequestDispatcher(url).forward(request, response);
+        ProductsDao dao = new ProductsDao();
+        List<Products> pro1 = dao.SelectAll();
+
+        for(Products p : pro1){
+            System.out.println(p.getProductName());
+        }
+
+        request.setAttribute("Product1", pro1);
+
+
+        // debug
+        System.out.println(url);
+
+        request.getRequestDispatcher(url).forward(request,response);
 
 
     }
