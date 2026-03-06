@@ -153,7 +153,25 @@ public class UserDao extends BaseDao {
             throw new RuntimeException(e);
 
         }
-
     }
+    // hàm cập nhật ngày sinh và giới tính
+    public boolean updateBirthdayOrGender(int userID, LocalDate birthday, int gender, String firstname,
+                                          String lastname) {
+        String sql = "UPDATE users SET birthday=?, gender=?,firstName=?,lastName=? WHERE userID=?";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setDate(1, Date.valueOf(birthday));
+            ps.setInt(2, gender);
+            ps.setString(3, firstname);
+            ps.setString(4, lastname);
+            ps.setInt(5, userID);
+
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
 
