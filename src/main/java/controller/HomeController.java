@@ -33,7 +33,7 @@ public class HomeController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String url ="/views/index.html";
+        String url ="/WEB-INF/views/index.html";
 
         request.getRequestDispatcher(url).forward(request, response);
 
