@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductsDao extends BaseDao{
+
+    // lấy tất cả sp
     public List<Products> SelectAll() {
         List<Products> products = new ArrayList<>();
         String sql = "Select * from Products WHERE status='ACTIVE' order by ProductsID;";
@@ -26,5 +28,26 @@ public class ProductsDao extends BaseDao{
             e.printStackTrace();
         }
         return products;
+    }
+
+    // lấy các sản phẩm tương tự
+    public List<Products> SelectByCategory(int type) {
+        // TODO Auto-generated method stub
+        List<Products> list = new ArrayList<Products>();
+        String sql = "Select * from Products WHERE CategoryID=? LIMIT 4";
+
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setInt(1, type);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Products(rs.getInt("ProductsID"), rs.getString("productsName"), rs.getInt("categoryID"),
+                        rs.getBigDecimal("price"), rs.getString("status"), rs.getString("img"),
+                        rs.getString("DESCRIPTION")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }
