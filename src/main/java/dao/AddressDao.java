@@ -95,4 +95,63 @@ public class AddressDao extends BaseDao {
             throw new RuntimeException(e);
         }
     }
+
+    public boolean updateCurrentAddressByID(int id, int userID) {
+        updateAllIsDefaultAddress(userID); // reset hết về 0 trước
+        String sql = "UPDATE address SET isDefault = 1 WHERE addressID = ? AND userID = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            ps.setInt(2, userID);
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int isFirstAddress(int userID) {
+        String sql = "SELECT COUNT(*) FROM address WHERE userID = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, userID);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public Address selectAddressByAddressID(int addressId) {
+        Address add = new Address();
+        String sql = "SELECT a.addressID, a.fulladdress, a.city_code, s.city_name, "
+                + "a.ward, a.phone, a.userID, a.isDefault, a.country "
+                + "FROM address a "
+                + "JOIN shipping s ON s.city_code = a.city_code "
+                + "WHERE addressID = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, addressId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                add.setAddressID(rs.getInt("addressID"));
+                add.setFullAddress(rs.getString("fulladdress"));
+                add.setCity_code(rs.getString("city_code"));
+                add.setCityName(rs.getString("city_name"));
+                add.setCountry(rs.getString("country"));
+                add.setPhone(rs.getString("phone"));
+                add.setUserID(rs.getInt("userID"));
+                add.setIsDefault(rs.getBoolean("isDefault"));
+            }
+            return add;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
