@@ -166,5 +166,30 @@ public class UserDao extends BaseDao {
 
         }
     }
+    public boolean checkEmail(String email) {
+        String sql = "SELECT * FROM users WHERE email=?";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+
+        }
+    }
+
+    public boolean isEmailExists(String email) {
+        String sql = "SELECT * FROM users where email =?";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+
+        }
+    }
 
 }
