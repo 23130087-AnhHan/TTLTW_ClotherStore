@@ -139,5 +139,32 @@ public class UserDao extends BaseDao {
         }
     }
 
+    public boolean updatePasswordByEmail(String email, String passwordHash) {
+        String sql = "UPDATE users SET password=? WHERE email=?";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setString(1, passwordHash);
+            ps.setString(2, email);
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+
+        }
+    }
+
+    public boolean updatePasswordByUserID(int id, String passwordHash) {
+        String sql = "UPDATE users SET password=? WHERE userID=?";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setString(1, passwordHash);
+            ps.setInt(2, id);
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+
+        }
+    }
 
 }
