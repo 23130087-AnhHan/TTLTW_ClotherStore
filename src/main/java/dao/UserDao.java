@@ -88,4 +88,56 @@ public class UserDao extends BaseDao {
         }
         return null;
     }
+    public User getFullName(String username) {
+        String sql = "SELECT * FROM USERS WHERE username = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, username);
+            ResultSet result = ps.executeQuery();
+
+            if (result.next()) {
+                User user = new User();
+                user.setIdUser(result.getInt("userID"));
+                user.setFirstName(result.getString("firstName"));
+                user.setLastName(result.getString("lastName"));
+                user.setEmail(result.getString("email"));
+                user.setVerify((result.getInt("verify") == 1));
+                user.setUsername(result.getString("username"));
+                user.setPassword(result.getString("password"));
+                user.setRole(result.getInt("role"));
+                user.setStatus(result.getInt("status"));
+
+
+                Date getBirthdate = result.getDate("birthday");
+                user.setBirthday(getBirthdate == null ? null : getBirthdate.toLocalDate());
+
+                user.setGender(result.getInt("gender"));
+                return user;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean updateBirthdayOrGender(int userID, LocalDate birthday, int gender, String firstname,
+                                          String lastname) {
+        String sql = "UPDATE users SET birthday=?, gender=?,firstName=?,lastName=? WHERE userID=?";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setDate(1, Date.valueOf(birthday));
+            ps.setInt(2, gender);
+            ps.setString(3, firstname);
+            ps.setString(4, lastname);
+            ps.setInt(5, userID);
+
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }
