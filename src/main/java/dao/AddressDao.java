@@ -68,4 +68,31 @@ public class AddressDao extends BaseDao {
         }
         return -1;
     }
+
+    public boolean deleteAddressByID(int id) {
+        String sql = "DELETE FROM address WHERE addressID = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public boolean updateAllIsDefaultAddress(int userID) {
+        String sql = "UPDATE address SET isDefault = 0 WHERE userID = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, userID);
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
