@@ -1,4 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false"%>
+<%--Cấu hình bị tắt EL -SOS- --%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,61 +23,45 @@
 
 </head>
 <body>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
 
 
-<section id="prodetails" class="section-p1 d-flex flex-wrap mt-5">
-    <div class="single-pro-image col-12 col-md-5 pe-md-4">
-        <img src="https://via.placeholder.com/600x600" width="100%" id="MainImg" alt="Product Image">
+<section id="prodetails" class="section-p1">
+    <div class="single-pro-image">
+        <img src="${ctx}${sproduct.img}" width="100%" id="MainImg" alt="">
 
-        <div class="small-img-group d-flex justify-content-between mt-2">
-            <div class="small-img-col" style="flex-basis: 24%; cursor: pointer;">
-                <img src="https://via.placeholder.com/600x600?text=Img+1" width="100%" class="small-img" alt="">
+        <div class="small-img-group">
+            <div class="small-img-col">
+                <img src="${ctx}${sproduct.img}" width="100%" class="small-img"
+                     alt="">
             </div>
-            <div class="small-img-col" style="flex-basis: 24%; cursor: pointer;">
-                <img src="https://via.placeholder.com/600x600?text=Img+2" width="100%" class="small-img" alt="">
+            <div class="small-img-col">
+                <img src="${ctx}${sproduct.img}" width="100%" class="small-img"
+                     alt="">
             </div>
-            <div class="small-img-col" style="flex-basis: 24%; cursor: pointer;">
-                <img src="https://via.placeholder.com/600x600?text=Img+3" width="100%" class="small-img" alt="">
+            <div class="small-img-col">
+                <img src="${ctx}${sproduct.img}" width="100%" class="small-img"
+                     alt="">
             </div>
-            <div class="small-img-col" style="flex-basis: 24%; cursor: pointer;">
-                <img src="https://via.placeholder.com/600x600?text=Img+4" width="100%" class="small-img" alt="">
+            <div class="small-img-col">
+                <img src="${ctx}${sproduct.img}" width="100%" class="small-img"
+                     alt="">
             </div>
         </div>
     </div>
 
-    <div class="sing-pro-details col-12 col-md-7 mt-4 mt-md-0">
-        <h6><a class="text-decoration-none" href="#" onclick="history.back()">Home</a> / Awesome T-Shirt</h6>
-        <h4>Awesome Cotton T-Shirt</h4>
+    <div class="sing-pro-details">
+        <h6><a class="text-decoration-none" href="#" onclick="history.back()"></a> / ${sproduct.productName}</h6>
+        <h4>${sproduct.productName}</h4>
 
-        <h2 id="displayPrice">250,000 VNĐ</h2>
+        <h2>DEBUG</h2>
 
-        <div class="d-flex flex-row">
-            <div class="d-flex flex-row align-items-center">
-                <p class="me-3 p-2 mt-2">Size: </p>
-                <select id="selectTagSize" class="form-select" style="width: auto;">
-                    <option value="S">S</option>
-                    <option value="M">M</option>
-                    <option value="L">L</option>
-                    <option value="XL" disabled>XL - Out stock</option>
-                </select>
-            </div>
-        </div>
+        ${sproduct} <br>
+       ${sproduct.productName} <br>
+         ${sproduct.description}
 
-        <div class="d-flex flex-row align-items-center mb-4 mt-2">
-            <p class="mt-2 me-2 mb-0">Quantity: </p>
-            <input id="quanity" type="number" class="form-control" value="1" min="1" style="width: 70px;">
-        </div>
 
-        <div class="mb-4">
-            <button class="btn btn-primary px-4 py-2" id="btn_AddToCart" onclick="addToCart()">Add to Cart</button>
-        </div>
 
-        <h4>
-            <p style="opacity: 0.5; font-size: 16px; font-weight: normal;">Remaining Stock: <span id="remainSpan">15</span></p>
-            Product Details
-        </h4>
-        <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</span>
-    </div>
 </section>
 
 <section class="section-p1 mt-5">
