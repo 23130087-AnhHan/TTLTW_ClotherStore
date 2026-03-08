@@ -1,5 +1,6 @@
 package controller;
 
+import dao.ProductVariantsDao;
 import dao.ProductsDao;
 import model.Category;
 import model.ProductVariants;
@@ -27,14 +28,30 @@ public class ShopController extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+        if (action.equals("SProduct")) {
+            ShowSProduct(request, response);
+        }
         request.getRequestDispatcher("/WEB-INF/views/sproduct.jsp").forward(request,response);
-
     }
 
+    private void ShowSProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int getID = Integer.parseInt(request.getParameter("productID"));
+        int getType = Integer.parseInt(request.getParameter("type"));
+        ProductsDao dao= new ProductsDao();
+        ProductVariantsDao product_variantsDao = new ProductVariantsDao();
 
 
+        List<ProductVariants> productVariant = product_variantsDao.SelectByProductIDInProductVariants(getID);
+        Products product=	dao.SelectByProductID(getID);
+        List<Products> rq = dao.SelectByCategory(getType);
 
+        System.out.println("Product = " + product);
 
+        request.setAttribute("getVariants", productVariant);
+        request.setAttribute("TypeClothe", rq);
+        request.setAttribute("sproduct", product);
+    }
 
 
 }
