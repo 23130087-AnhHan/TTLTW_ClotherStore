@@ -50,4 +50,34 @@ public class ProductsDao extends BaseDao{
         }
         return list;
     }
+
+    public Products SelectByProductID(int id) {
+        String sql = "SELECT * FROM products WHERE ProductsID = ? LIMIT 1";
+        Products product = null;
+
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                product = new Products(
+                        rs.getInt("ProductsID"),
+                        rs.getString("productsName"),
+                        rs.getInt("categoryID"),
+                        rs.getBigDecimal("price"),
+                        rs.getString("status"),
+                        rs.getString("img"),
+                        rs.getString("DESCRIPTION")
+                );
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return product;
+    }
+
 }
