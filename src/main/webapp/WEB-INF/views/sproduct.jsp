@@ -25,6 +25,7 @@
 <body>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 
+<jsp:include page="/WEB-INF/includes/header.jsp"></jsp:include>
 
 <section id="prodetails" class="section-p1">
     <div class="single-pro-image">
