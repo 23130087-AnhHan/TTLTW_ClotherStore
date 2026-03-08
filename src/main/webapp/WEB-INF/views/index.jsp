@@ -22,7 +22,7 @@
 </head>
 <body>
 
-<jsp:include page="../includes/header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/includes/header.jsp"></jsp:include>
 
 <section id="hero">
     <h4>Trade-in-offer</h4>
@@ -78,6 +78,7 @@
                     </div>
 <%--                    <h4><fmt:formatNumber value="${p.price }" pattern="#,##0 VNĐ"/></h4>--%>
                 </div>
+                <a href="${pageContext.request.contextPath}/shop?action=SProduct&productID=${p.productID}&type=${p.categoryID}"><i class="bi bi-cart cart"></i></a>
             </div>
         </c:forEach>
     </div>
@@ -130,7 +131,7 @@
         <button class="normal">Sign Up</button>
     </div>
 </section>
-<jsp:include page="../includes/footer.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/includes/footer.jsp"></jsp:include>
 
 </body>
 </html>
