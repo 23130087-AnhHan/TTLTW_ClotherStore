@@ -12,8 +12,10 @@ public class JDBCUtil {
     public static Connection getConnection() {
         Connection conn = null;
         try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
             conn = DriverManager.getConnection(URL, USER, PASSWORD);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return conn;
