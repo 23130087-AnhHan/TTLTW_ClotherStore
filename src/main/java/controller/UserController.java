@@ -225,5 +225,28 @@ public class UserController extends HttpServlet {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
     }
+
+    private void addAddress(HttpServletRequest request, HttpServletResponse response) throws IOException  {
+        // TODO Auto-generated method stub
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        HttpSession session = request.getSession(false);
+        String getAddressLine = request.getParameter("fulladdress");
+        String getWard = request.getParameter("district");
+        String getCity = request.getParameter("city");
+        String getCountry = request.getParameter("country");
+        String phone = request.getParameter("phone");
+
+        AddressDao dao = new AddressDao();
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        int count = dao.isFirstAddress(userSession.getIdUser());
+        Address addr = new Address(getAddressLine,getCity,getWard,phone,userSession.getIdUser(),getCountry,(count == 0 ?true:false));
+        int getId =dao.addAddressByUserID(addr);
+
+        response.setContentType("application/json");
+        response.getWriter().write("{\"addressID\":" + getId +","+"\"count\":"+count + "}");
+
+    }
+
 }
 
