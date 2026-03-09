@@ -11,7 +11,7 @@ import java.util.List;
 
 import static util.JDBCUtil.getConnection;
 
-public class OrdersDao {
+public class OrdersDao extends BaseDao {
     // trả về orderID sau khi insert thành công, nếu thất bại trả về -1
     public int insertOrders(Order order) {
         String sql = "INSERT INTO orders(userID,addressID,shipping_fee,note,subtotal,paymentMethod,discountAmount,totalAmount) VALUES(?,?,?,?,?,?,?,?)";
