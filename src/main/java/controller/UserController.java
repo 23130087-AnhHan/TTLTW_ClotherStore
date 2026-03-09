@@ -258,6 +258,18 @@ public class UserController extends HttpServlet {
         }
     }
 
+    private void updateCurrentAddress(HttpServletRequest request, HttpServletResponse response) {
+        String id = request.getParameter("id");
+        if(id !=null) {
+            HttpSession session = request.getSession(false);
+            UserSession user = (UserSession) session.getAttribute("user");
+            int getAddressId = Integer.parseInt(id);
+            AddressDao addressDao = new AddressDao();
+            addressDao.updateCurrentAddressByID(getAddressId,user.getIdUser());
+            response.setStatus(HttpServletResponse.SC_OK);
+        }
+    }
+
 
 
 }
