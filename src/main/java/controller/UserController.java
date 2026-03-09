@@ -248,5 +248,17 @@ public class UserController extends HttpServlet {
 
     }
 
+    private void removeAddress(HttpServletRequest request, HttpServletResponse response)  {
+        String id = request.getParameter("id");
+        if(id !=null) {
+            int getAddressId = Integer.parseInt(id);
+            AddressDao addressDao = new AddressDao();
+            addressDao.deleteAddressByID(getAddressId);
+            response.setStatus(HttpServletResponse.SC_OK);
+        }
+    }
+
+
+
 }
 
