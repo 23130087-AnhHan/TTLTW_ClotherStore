@@ -1,12 +1,19 @@
 package controller;
 
+import dao.AddressDao;
+import dao.OrdersDao;
+import dao.UserDao;
+import model.*;
+
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 @WebServlet("/user/*")
@@ -22,42 +29,175 @@ public class UserController extends HttpServlet {
             throws ServletException, IOException {
 
         String path = request.getPathInfo();
-
-        if (path == null || path.equals("/")) {
-            response.sendRedirect(request.getContextPath() + "/user/orders_his");
-            return;
-        }
-
-        String url;
-
+        HttpSession session = request.getSession();
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        OrdersDao orDao = new OrdersDao();
+        String selected ="";
+        String condition=null;
+        List<Order> listOrder =null;
         switch (path) {
+
+
+            case "/review":
+                List<OrderDetail> odList = orDao.selectProductsUsedBuy(userSession.getIdUser());
+                request.setAttribute("account",8);
+                request.setAttribute("od", odList);
+                request.getRequestDispatcher("/WEB-INF/views/reviews.jsp")
+                        .forward(request, response);
+                break;
+            case "/order_history":
+
+                request.getRequestDispatcher("/WEB-INF/views/order_history.jsp")
+                        .forward(request, response);
+                break;
             case "/orders_his":
-                url = "/WEB-INF/views/orders_his.html";
+
+                condition = request.getParameter("search");
+                if(condition != null) {
+                    switch (condition) {
+                        case "today":
+                            selected = "today";
+                            listOrder = orDao.selectOrdersByToday(userSession.getIdUser());
+                            break;
+                        case "week":
+                            selected = "week";
+
+                            listOrder = orDao.selectOrdersByWeek(userSession.getIdUser());
+                            break;
+                        case "month":
+                            selected = "month";
+                            listOrder = orDao.selectOrdersByMonth(userSession.getIdUser());
+                            break;
+                        case "all":
+                            selected = "all";
+                            listOrder = orDao.selectOrderByUserID(userSession.getIdUser());
+                            break;
+                        default:
+                            throw new IllegalArgumentException("Unexpected value: " + condition);
+                    }
+                }else {
+                    selected = "all";
+                    listOrder = orDao.selectOrderByUserID(userSession.getIdUser());
+                }
+                request.setAttribute("choose", selected);
+                request.setAttribute("orders", listOrder);
+                request.setAttribute("account",4);
+                request.getRequestDispatcher("/WEB-INF/views/orders_his.jsp")
+                        .forward(request, response);
                 break;
             case "/orders_shipping":
-                url = "/WEB-INF/views/orders_shipping.html";
+                condition = request.getParameter("search");
+                if(condition != null) {
+                    switch (condition) {
+                        case "today":
+                            selected = "today";
+                            listOrder = orDao.selectOrdersByTodayShipping(userSession.getIdUser());
+                            break;
+                        case "week":
+                            selected = "week";
+
+                            listOrder = orDao.selectOrdersByWeekShipping(userSession.getIdUser());
+                            break;
+                        case "month":
+                            selected = "month";
+                            listOrder = orDao.selectOrdersByMonthShipping(userSession.getIdUser());
+                            break;
+                        case "all":
+                            selected = "all";
+                            listOrder = orDao.selectOrderByUserIDShipping(userSession.getIdUser());
+                            break;
+                        default:
+                            throw new IllegalArgumentException("Unexpected value: " + condition);
+                    }
+                }else {
+                    selected = "all";
+                    listOrder = orDao.selectOrderByUserIDShipping(userSession.getIdUser());
+                }
+                request.setAttribute("choose", selected);
+                request.setAttribute("orders", listOrder);
+                request.setAttribute("account",5);
+
+                request.getRequestDispatcher("/WEB-INF/views/orders_shipping2.jsp")
+                        .forward(request, response);
                 break;
             case "/orders_delivered":
-                url = "/WEB-INF/views/orders_delivered.html";
+
+                condition = request.getParameter("search");
+                if(condition != null) {
+                    switch (condition) {
+                        case "today":
+                            selected = "today";
+                            listOrder = orDao.selectOrdersByTodayDelivered(userSession.getIdUser());
+                            break;
+                        case "week":
+                            selected = "week";
+
+                            listOrder = orDao.selectOrdersByWeekDelivered(userSession.getIdUser());
+                            break;
+                        case "month":
+                            selected = "month";
+                            listOrder = orDao.selectOrdersByMonthDelivered(userSession.getIdUser());
+                            break;
+                        case "all":
+                            selected = "all";
+                            listOrder = orDao.selectOrdersByDelivered(userSession.getIdUser());
+                            break;
+                        default:
+                            throw new IllegalArgumentException("Unexpected value: " + condition);
+                    }
+                }else {
+                    selected = "all";
+                    listOrder = orDao.selectOrdersByDelivered(userSession.getIdUser());
+                }
+                request.setAttribute("choose", selected);
+                request.setAttribute("orders", listOrder);
+                request.setAttribute("account",6);
+
+                request.getRequestDispatcher("/WEB-INF/views/orders_delivered2.jsp")
+                        .forward(request, response);
                 break;
             case "/settings":
-                url = "/WEB-INF/views/settings.html";
+
+                UserDao user = new UserDao();
+                User selectUser = user.selectUserByUserID(userSession.getIdUser());
+                String getMsgType = (String) session.getAttribute("msg_type");
+                String getMsg = (String) session.getAttribute("msg");
+
+                if(getMsgType !=null && getMsg !=null) {
+                    request.setAttribute("msg_type", getMsgType);
+                    request.setAttribute("msg", getMsg);
+                    session.removeAttribute("msg_type");
+                    session.removeAttribute("msg");
+
+                }
+
+                request.setAttribute("getProfile", selectUser);
+                request.setAttribute("account", 1);
+                request.getRequestDispatcher("/WEB-INF/views/settings.jsp")
+                        .forward(request, response);
                 break;
             case "/security":
-                url = "/WEB-INF/views/settings_security.html";
+                request.setAttribute("account", 2);
+                request.getRequestDispatcher("/WEB-INF/views/settings_security.jsp")
+                        .forward(request, response);
                 break;
             case "/address":
-                url = "/WEB-INF/views/settings_address.html";
+                AddressDao dao = new AddressDao();
+                List<Address> list = dao.selectAddressByUserID(userSession.getIdUser());
+
+                request.setAttribute("address", list);
+                request.setAttribute("account", 3);
+                request.getRequestDispatcher("/WEB-INF/views/settings_address.jsp")
+                        .forward(request, response);
                 break;
             case "/help":
-                url = "/WEB-INF/views/help.html";
+                request.getRequestDispatcher("/WEB-INF/views/help.jsp")
+                        .forward(request, response);
                 break;
+
             default:
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
-                return;
         }
-
-        request.getRequestDispatcher(url).forward(request, response);
     }
 
     @Override
