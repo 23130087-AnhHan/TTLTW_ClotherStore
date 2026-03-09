@@ -2,6 +2,7 @@ package controller;
 
 import dao.AddressDao;
 import dao.OrdersDao;
+import dao.ServicesTaxDao;
 import dao.UserDao;
 import model.*;
 
@@ -227,7 +228,7 @@ public class UserController extends HttpServlet {
         }
     }
 
-    private void addAddress(HttpServletRequest request, HttpServletResponse response) throws IOException  {
+    private void addAddress(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // TODO Auto-generated method stub
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
@@ -241,17 +242,17 @@ public class UserController extends HttpServlet {
         AddressDao dao = new AddressDao();
         UserSession userSession = (UserSession) session.getAttribute("user");
         int count = dao.isFirstAddress(userSession.getIdUser());
-        Address addr = new Address(getAddressLine,getCity,getWard,phone,userSession.getIdUser(),getCountry,(count == 0 ?true:false));
-        int getId =dao.addAddressByUserID(addr);
+        Address addr = new Address(getAddressLine, getCity, getWard, phone, userSession.getIdUser(), getCountry, (count == 0 ? true : false));
+        int getId = dao.addAddressByUserID(addr);
 
         response.setContentType("application/json");
-        response.getWriter().write("{\"addressID\":" + getId +","+"\"count\":"+count + "}");
+        response.getWriter().write("{\"addressID\":" + getId + "," + "\"count\":" + count + "}");
 
     }
 
-    private void removeAddress(HttpServletRequest request, HttpServletResponse response)  {
+    private void removeAddress(HttpServletRequest request, HttpServletResponse response) {
         String id = request.getParameter("id");
-        if(id !=null) {
+        if (id != null) {
             int getAddressId = Integer.parseInt(id);
             AddressDao addressDao = new AddressDao();
             addressDao.deleteAddressByID(getAddressId);
@@ -261,12 +262,12 @@ public class UserController extends HttpServlet {
 
     private void updateCurrentAddress(HttpServletRequest request, HttpServletResponse response) {
         String id = request.getParameter("id");
-        if(id !=null) {
+        if (id != null) {
             HttpSession session = request.getSession(false);
             UserSession user = (UserSession) session.getAttribute("user");
             int getAddressId = Integer.parseInt(id);
             AddressDao addressDao = new AddressDao();
-            addressDao.updateCurrentAddressByID(getAddressId,user.getIdUser());
+            addressDao.updateCurrentAddressByID(getAddressId, user.getIdUser());
             response.setStatus(HttpServletResponse.SC_OK);
         }
     }
@@ -302,5 +303,25 @@ public class UserController extends HttpServlet {
         response.sendRedirect(request.getContextPath() + url);
 
     }
-}
 
+    private void reviewProducts(HttpServletRequest request, HttpServletResponse response) {
+        String getProductsID = request.getParameter("proid");
+        String getOrderDetailsID = request.getParameter("orderDetailID");
+        String getRating = request.getParameter("rating");
+        ServicesTaxDao dao = new ServicesTaxDao();
+        HttpSession session = request.getSession(false);
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        try {
+            int rate = Integer.parseInt(getRating);
+            int pid = Integer.parseInt(getProductsID);
+            int odid = Integer.parseInt(getOrderDetailsID);
+            reviews re = new reviews(odid, userSession.getIdUser(), pid, rate);
+            if (dao.insertReviewProducts(re)) {
+                response.setStatus(HttpServletResponse.SC_OK);
+
+            };
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
+}
