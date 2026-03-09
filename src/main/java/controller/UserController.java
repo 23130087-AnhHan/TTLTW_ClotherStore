@@ -32,15 +32,15 @@ public class UserController extends HttpServlet {
         HttpSession session = request.getSession();
         UserSession userSession = (UserSession) session.getAttribute("user");
         OrdersDao orDao = new OrdersDao();
-        String selected ="";
-        String condition=null;
-        List<Order> listOrder =null;
+        String selected = "";
+        String condition = null;
+        List<Order> listOrder = null;
         switch (path) {
 
 
             case "/review":
                 List<OrderDetail> odList = orDao.selectProductsUsedBuy(userSession.getIdUser());
-                request.setAttribute("account",8);
+                request.setAttribute("account", 8);
                 request.setAttribute("od", odList);
                 request.getRequestDispatcher("/WEB-INF/views/reviews.jsp")
                         .forward(request, response);
@@ -53,7 +53,7 @@ public class UserController extends HttpServlet {
             case "/orders_his":
 
                 condition = request.getParameter("search");
-                if(condition != null) {
+                if (condition != null) {
                     switch (condition) {
                         case "today":
                             selected = "today";
@@ -75,19 +75,19 @@ public class UserController extends HttpServlet {
                         default:
                             throw new IllegalArgumentException("Unexpected value: " + condition);
                     }
-                }else {
+                } else {
                     selected = "all";
                     listOrder = orDao.selectOrderByUserID(userSession.getIdUser());
                 }
                 request.setAttribute("choose", selected);
                 request.setAttribute("orders", listOrder);
-                request.setAttribute("account",4);
+                request.setAttribute("account", 4);
                 request.getRequestDispatcher("/WEB-INF/views/orders_his.jsp")
                         .forward(request, response);
                 break;
             case "/orders_shipping":
                 condition = request.getParameter("search");
-                if(condition != null) {
+                if (condition != null) {
                     switch (condition) {
                         case "today":
                             selected = "today";
@@ -109,13 +109,13 @@ public class UserController extends HttpServlet {
                         default:
                             throw new IllegalArgumentException("Unexpected value: " + condition);
                     }
-                }else {
+                } else {
                     selected = "all";
                     listOrder = orDao.selectOrderByUserIDShipping(userSession.getIdUser());
                 }
                 request.setAttribute("choose", selected);
                 request.setAttribute("orders", listOrder);
-                request.setAttribute("account",5);
+                request.setAttribute("account", 5);
 
                 request.getRequestDispatcher("/WEB-INF/views/orders_shipping2.jsp")
                         .forward(request, response);
@@ -123,7 +123,7 @@ public class UserController extends HttpServlet {
             case "/orders_delivered":
 
                 condition = request.getParameter("search");
-                if(condition != null) {
+                if (condition != null) {
                     switch (condition) {
                         case "today":
                             selected = "today";
@@ -145,13 +145,13 @@ public class UserController extends HttpServlet {
                         default:
                             throw new IllegalArgumentException("Unexpected value: " + condition);
                     }
-                }else {
+                } else {
                     selected = "all";
                     listOrder = orDao.selectOrdersByDelivered(userSession.getIdUser());
                 }
                 request.setAttribute("choose", selected);
                 request.setAttribute("orders", listOrder);
-                request.setAttribute("account",6);
+                request.setAttribute("account", 6);
 
                 request.getRequestDispatcher("/WEB-INF/views/orders_delivered2.jsp")
                         .forward(request, response);
@@ -163,7 +163,7 @@ public class UserController extends HttpServlet {
                 String getMsgType = (String) session.getAttribute("msg_type");
                 String getMsg = (String) session.getAttribute("msg");
 
-                if(getMsgType !=null && getMsg !=null) {
+                if (getMsgType != null && getMsg != null) {
                     request.setAttribute("msg_type", getMsgType);
                     request.setAttribute("msg", getMsg);
                     session.removeAttribute("msg_type");
@@ -203,7 +203,27 @@ public class UserController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doGet(request, response);
+        String path = request.getPathInfo();
+
+        switch (path) {
+            case "/addressUpdate":
+                addAddress(request, response);
+                break;
+            case "/removeAddress":
+                removeAddress(request, response);
+                break;
+            case "/updateCurrentAddress":
+                updateCurrentAddress(request, response);
+                break;
+            case "/updateAccountInfo":
+                updateAccountInfo(request, response);
+                break;
+            case "/reviews":
+                reviewProducts(request, response);
+                break;
+            default:
+                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 }
 
